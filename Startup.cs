@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace _02_ASP_intro
+namespace AspNetCoreIntro
 {
     public class Startup
     {
