@@ -25,25 +25,31 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>The Rapper API</title>
+  <link rel="stylesheet" href="~/bootstrap.css"/>
 </head>
 
   <body>
-
-    <h2>Welcome to the Rapper API!</h2>
-    <p>To get rapper info:</p>
-    <ul>
-      @foreach (var route in rapperRts) {
-        <li>@route</li>
-      }
-    </ul>
-    <p>To get group info:</p>
-    <ul>
-      @foreach (var route in groupRts) {
-        <li>@route</li>
-      }
-    </ul>
-    <p>Page loaded at @DateTime.Now</p>
-
+    <div class="row p-3">
+      <div class="col-sm-12 px-3">
+        <h2>Welcome to the Rapper API!</h2>
+        <p>To get rapper info:</p>
+        <ul>
+          @foreach (var route in rapperRts) {
+            <li><code>@route</code></li>
+          }
+        </ul>
+        <p>To get group info:</p>
+        <ul>
+          @foreach (var route in groupRts) {
+            <li><code>@route</code></li>
+          }
+        </ul>
+        <pre>
+          <small>Page loaded at @DateTime.Now</small>
+        </pre>
+      </div>
+    </div>
+    
   </body>
 
 </html>

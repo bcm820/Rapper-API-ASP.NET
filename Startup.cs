@@ -25,6 +25,7 @@ namespace AspNetCoreIntro {
     ) {
       if (env.IsDevelopment()) app.UseDeveloperExceptionPage();
       loggerFactory.AddConsole();
+      app.UseStaticFiles();
       app.UseMvc();
     }
 
