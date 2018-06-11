@@ -4,13 +4,19 @@ namespace AspNetCoreIntro.Controllers {
 
   public class ExamplesController : Controller {
 
-    // Basic GET route
+    // Basic GET route (without serving view)
     [Route("")] public string Index() => "Hello World!";
 
-    // Route params returning JSON (of any object type)
-    // can pass in an existing or anonymous new object
-    [Route("params/{param}")]
-    public JsonResult RouteParams(string param) => Json(new { param = param });
+    // Basic GET route to render view
+    // If no View arg provided, defaults to "index";
+    // Otherwise, specify filename without .cshtml extension
+    // AspNetCore Mvc finds file in /Views/{ControllerName}/
+    [Route("example")] public IActionResult Page() => View();
+
+    // Route params (of any object type)
+    // Example of serving JSON for APIs
+    [Route("example/api/{param}")]
+    public JsonResult Params(string param) => Json(new { param = param });
 
   }
 }
