@@ -9,9 +9,6 @@ namespace Rappers {
     public int Id;
     public string GroupName;
     public List<Artist> Members;
-    public Group() {
-      Members = new List<Artist>();
-    }
   }
 
   public class Artist {
@@ -20,7 +17,6 @@ namespace Rappers {
     public int Age;
     public string Hometown;
     public int GroupId;
-    public Group Group;
   }
 
   public class JsonToFile<T> {

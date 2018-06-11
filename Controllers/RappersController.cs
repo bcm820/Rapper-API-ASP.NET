@@ -34,32 +34,32 @@ namespace AspNetCoreIntro.Controllers {
     [Route("rappers/all")]
     public JsonResult RapperList() => Json(rappers);
 
-    [Route("rappers/byName/{Name}")]
+    [Route("rappers/name/{Name}")]
     public JsonResult ByName(string Name) =>
       Json(rappers.Where(r => r.ArtistName.Contains(Name)));
 
-    [Route("rappers/byRealName/{RealName}")]
+    [Route("rappers/realName/{RealName}")]
     public JsonResult ByRealName(string RealName) =>
       Json(rappers.Where(r => r.RealName.Contains(RealName)));
 
-    [Route("rappers/byHometown/{Hometown}")]
+    [Route("rappers/hometown/{Hometown}")]
     public JsonResult ByHometown(string Hometown) =>
       Json(rappers.Where(r => r.Hometown.Contains(Hometown)));
 
-    [Route("rappers/byGroup")]
+    [Route("rappers/groups")]
     public JsonResult GroupList() => Json(groups);
 
-    [Route("rappers/byGroup/{Name}")]
+    [Route("rappers/groups/{Name}")]
     public JsonResult ByGroupName(string Name) =>
       Json(groups.Where(g => g.GroupName.Contains(Name)));
 
-    [Route("rappers/byGroup/showRappers={show}")]
+    [Route("rappers/groups/showAll={show}")]
     public JsonResult AllGroups(string show) {
       if (show != "true") return GroupList();
       var rappersGroup = rappers.GroupBy(r => r.GroupId);
       foreach (var rG in rappersGroup) {
         var idx = groups.FindIndex(g => g.Id == rG.Key);
-        if (idx > 0)
+        if (idx > -1)
           foreach (var r in rG)
             groups[idx].Members.Add(r);
       }
