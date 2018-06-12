@@ -1,57 +1,42 @@
-@{ // VARIABLES //
+@{
 
-  var rapperRts = new List<string> {
-    "/api/",
-    "/api/name/{name}",
-    "/api/realName/{realName}",
-    "/api/hometown/{hometown}"
-  };
+  ViewBag.Title = "Main";
+  Layout = "/Views/Shared/layout.cshtml";
 
-  var groupRts = new List<string> {
-    "/api/groups/",
-    "/api/groups/",
-    "/api/groups/{name}",
-    "/api/groups/artists=?{true/false}"
-  };
-}
-
-@{ // HTML WITH C# //
-
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>The Rapper API</title>
-  <link rel="stylesheet" href="~/bootstrap.css"/>
-</head>
-
-  <body>
-    <div class="row p-3">
-      <div class="col-sm-12 px-3">
-        <h2>Welcome to the Rapper API!</h2>
-        <p>To get rapper info:</p>
-        <ul>
-          @foreach (var route in rapperRts) {
-            <li><code>@route</code></li>
-          }
-        </ul>
-        <p>To get group info:</p>
-        <ul>
-          @foreach (var route in groupRts) {
-            <li><code>@route</code></li>
-          }
-        </ul>
-        <pre>
-          <small>Page loaded at @DateTime.Now</small>
-        </pre>
-      </div>
+  <div class="row p-3">
+    <div class="col-sm-12 px-3">
+    <h2>Welcome to the Rapper API!</h2>
     </div>
-    
-  </body>
+  </div>
 
-</html>
+  <div class="row p-3">
+    <div class="col-sm-6 px-3">
+
+      @foreach (var key in ViewBag.routes.Keys)
+      {<div>
+        <p>To get @key info:</p>
+        <ul>@foreach (var route in ViewBag.routes[key])
+          {<li><code>@route</code></li>}
+        </ul>
+      </div>}
+
+      <pre>Page loaded @DateTime.Now</pre>
+
+      @if (ViewBag.cleared != null)
+      {<pre>Views last cleared @ViewBag.cleared</pre>}
+
+    </div>
+    <div class="col-sm-6 px-3">
+
+      @if (ViewBag.visited.Count > 0)
+      {<p>Routes previously visited:</p>
+      <ul>@foreach (var route in ViewBag.visited){
+        var url = "/rappers" + route;
+        <li><code><a href="@url">@route</a></code></li>
+      }</ul>
+      <p><a href="/rappers/reset">Clear</a></p>}
+
+    </div>
+  </div>
 
 }
