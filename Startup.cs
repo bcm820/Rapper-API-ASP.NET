@@ -8,16 +8,13 @@ namespace AspNetCoreIntro {
 
   public class Startup {
 
-    // This method gets called by the runtime.
-    // Use this method to add services to the container.
-    // For more information on how to configure your application,
-    // visit https://go.microsoft.com/fwlink/?LinkID=398940
+    // Use this method to add services to the container
     public void ConfigureServices(IServiceCollection services) {
+      services.AddSession();
       services.AddMvc();
     }
 
-    // This method gets called by the runtime.
-    // Use this method to configure the HTTP request pipeline.
+    // Use this method to configure the HTTP request pipeline
     public void Configure(
       IApplicationBuilder app,
       IHostingEnvironment env,
@@ -26,6 +23,7 @@ namespace AspNetCoreIntro {
       if (env.IsDevelopment()) app.UseDeveloperExceptionPage();
       loggerFactory.AddConsole();
       app.UseStaticFiles();
+      app.UseSession();
       app.UseMvc();
     }
 
