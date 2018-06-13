@@ -30,27 +30,11 @@ namespace AspNetCoreIntro.Controllers {
       };
     }
 
-    public static List<string> FindOrStartSession(HttpContext ctx) {
-      var strList = ctx.Session.GetList("strList");
-      if (strList == null) {
-        strList = new List<string>();
-        ctx.Session.SetList("strList", strList);
-      }
-      return strList;
-    }
-
-    public static List<string> UpdateSession(HttpContext ctx, string str) {
-      List<string> strList = FindOrStartSession(ctx);
-      strList.Add(str);
-      ctx.Session.SetList("strList", strList);
-      return strList;
-    }
-
     [Route("rappers")]
     public IActionResult Index() {
       ViewBag.routes = routes;
       ViewBag.routesList = routes["rapper"].Concat(routes["group"]);
-      ViewBag.visited = FindOrStartSession(HttpContext);
+      ViewBag.visited = HttpContext.Session.FindOrCreateList("visited");
       ViewBag.cleared = TempData["cleared"];
       return View();
     }
@@ -64,38 +48,38 @@ namespace AspNetCoreIntro.Controllers {
 
     [Route("rappers/api")]
     public JsonResult RapperList() {
-      UpdateSession(HttpContext, $"/api");
+      HttpContext.Session.AppendToList("visited", "/api");
       return Json(rappers);
     }
 
     [Route("rappers/api/name/{name}")]
     public JsonResult ByName(string name) {
-      UpdateSession(HttpContext, $"/api/name/{name}");
-      return Json(rappers.Where(r => r.ArtistName.Contains(name)));
+      HttpContext.Session.AppendToList("visited", $"/api/name/{name}");
+      return Json(rappers.Where(r => r.ArtistName.ContainsIgnoreCase(name)));
     }
 
     [Route("rappers/api/realName/{realname}")]
     public JsonResult ByRealName(string realname) {
-      UpdateSession(HttpContext, $"/api/realname/{realname}");
-      return Json(rappers.Where(r => r.RealName.Contains(realname)));
+      HttpContext.Session.AppendToList("visited", $"/api/realname/{realname}");
+      return Json(rappers.Where(r => r.RealName.ContainsIgnoreCase(realname)));
     }
 
     [Route("rappers/api/hometown/{hometown}")]
     public JsonResult ByHometown(string hometown) {
-      UpdateSession(HttpContext, $"/api/hometown/{hometown}");
-      return Json(rappers.Where(r => r.Hometown.Contains(hometown)));
+      HttpContext.Session.AppendToList("visited", $"/api/hometown/{hometown}");
+      return Json(rappers.Where(r => r.Hometown.ContainsIgnoreCase(hometown)));
     }
 
     [Route("rappers/api/groups")]
     public JsonResult GroupList() {
-      UpdateSession(HttpContext, $"/api/groups");
+      HttpContext.Session.AppendToList("visited", $"/api/groups");
       return Json(groups);
     }
 
     [Route("rappers/api/groups/{groupname}")]
     public JsonResult ByGroupName(string groupname) {
-      UpdateSession(HttpContext, $"/api/groups/{groupname}");
-      return Json(groups.Where(g => g.GroupName.Contains(groupname)));
+      HttpContext.Session.AppendToList("visited", $"/api/groups/{groupname}");
+      return Json(groups.Where(g => g.GroupName.ContainsIgnoreCase(groupname)));
     }
 
     [Route("rappers/api/groups/showMembers={show}")]
@@ -108,7 +92,7 @@ namespace AspNetCoreIntro.Controllers {
           foreach (var r in rG)
             groups[idx].Members.Add(r);
       }
-      UpdateSession(HttpContext, $"/api/groups/showMembers={show}");
+      HttpContext.Session.AppendToList("visited", $"/api/groups/showMembers={show}");
       return Json(groups);
     }
 
