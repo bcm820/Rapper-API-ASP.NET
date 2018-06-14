@@ -6,27 +6,40 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
 using Rappers;
 
+using Microsoft.EntityFrameworkCore;
+using AspNetCoreIntro.Models;
+
 namespace AspNetCoreIntro.Controllers {
 
   public class RappersController : Controller {
+
+    // Mock API data lists
+    // (to replace with fetched API data)
     public List<Artist> rappers;
     public List<Group> groups;
+
+    // Inject EF Core DB context
+    private Context db;
+
+    // Dictionary of route links to render on view
     public Dictionary<string, List<string>> routes;
 
-    public RappersController() {
+    public RappersController(Context context) {
+      db = context;
       rappers = JsonToFile<Artist>.ReadJson();
       groups = JsonToFile<Group>.ReadJson();
-      routes = new Dictionary<string, List<string>>();
-      routes["rapper"] = new List<string> {
-        "/api",
-        "/api/name/{name}",
-        "/api/realname/{realname}",
-        "/api/hometown/{hometown}"
-      };
-      routes["group"] = new List<string> {
-        "/api/groups",
-        "/api/groups/{groupname}",
-        "/api/groups/showMembers={true/false}"
+      routes = new Dictionary<string, List<string>> {
+        ["rapper"] = new List<string> {
+            "/api",
+            "/api/name/{name}",
+            "/api/realname/{realname}",
+            "/api/hometown/{hometown}"
+        },
+        ["group"] = new List<string> {
+          "/api/groups",
+          "/api/groups/{groupname}",
+          "/api/groups/showMembers={true/false}"
+        }
       };
     }
 
