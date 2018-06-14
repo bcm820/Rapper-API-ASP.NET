@@ -15,28 +15,28 @@ namespace AspNetCoreIntro {
 
     // Gets stored JSON string and deserializes into list of objects.
     public static List<object> GetList(this ISession session, string key) {
-      string sessionList = session.GetString(key);
-      return sessionList == null ? null : JsonConvert.DeserializeObject<List<object>>(sessionList);
+      string SessionList = session.GetString(key);
+      return SessionList == null ? null : JsonConvert.DeserializeObject<List<object>>(SessionList);
     }
 
     // Checks session for matching key. If found, returns stored list.
     // If not found, stores and returns a new list of objects.
     public static List<object> FindOrCreateList(this ISession session, string key) {
-      var sessionList = session.GetList(key); // note: no need to pass ISession in
-      if (sessionList == null) {
-        sessionList = new List<object>();
-        session.SetList(key, sessionList);
+      var SessionList = session.GetList(key); // note: no need to pass ISession in
+      if (SessionList == null) {
+        SessionList = new List<object>();
+        session.SetList(key, SessionList);
       }
-      return sessionList;
+      return SessionList;
     }
 
     // Checks session for matching key, returning the existing list or a new list.
     // Appends new data to the list and returns the updated list.
     public static List<object> AppendToList(this ISession session, string key, object data) {
-      List<object> sessionList = session.FindOrCreateList(key);
-      sessionList.Add(data);
-      session.SetList(key, sessionList);
-      return sessionList;
+      List<object> SessionList = session.FindOrCreateList(key);
+      SessionList.Add(data);
+      session.SetList(key, SessionList);
+      return SessionList;
     }
 
   }

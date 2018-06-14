@@ -21,10 +21,10 @@ namespace Rappers {
 
   public class JsonToFile<T> {
     public static List<T> ReadJson() {
-      string filename = $"data/{typeof(T).Name}.json";
-      using (StreamReader file = File.OpenText(filename)) {
-        JsonSerializer serializer = new JsonSerializer();
-        return (List<T>)serializer.Deserialize(file, typeof(List<T>));
+      string Filename = $"data/{typeof(T).Name}.json";
+      using (StreamReader FileToConvert = File.OpenText(Filename)) {
+        JsonSerializer Serializer = new JsonSerializer();
+        return (List<T>)Serializer.Deserialize(FileToConvert, typeof(List<T>));
       }
     }
   }

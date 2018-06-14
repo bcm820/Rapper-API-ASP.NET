@@ -36,8 +36,8 @@ namespace AspNetCoreIntro.Controllers {
       return RedirectToAction("MethodToDirectTo", args);
     }
     [Route("example/anywhereItDontMatter")]
-    public JsonResult MethodToRedirectTo(string Food, int Amt) =>
-      Json($"I ate {Amt} {Food}."); // "I ate 5 sandwiches"
+    public JsonResult MethodToRedirectTo(string food, int amt) =>
+      Json($"I ate {amt} {food}."); // "I ate 5 sandwiches"
 
     // Redirect to another method in a diff controller...
     [Route("example/redirectToDiffControllerMethod")]

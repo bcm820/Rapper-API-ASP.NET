@@ -12,11 +12,11 @@
   <div class="row p-3">
     <div class="col-sm-6 px-3">
 
-      @foreach (var key in ViewBag.routes.Keys) {
+      @foreach (var key in ViewBag.Routes.Keys) {
         <div>
           <p>To get @key info:</p>
           <ul>
-            @foreach (var route in ViewBag.routes[key]) {
+            @foreach (var route in ViewBag.Routes[key]) {
               var url = "/rappers" + route;
               <li>
                 <code>
@@ -30,16 +30,16 @@
 
       <small><pre>Page loaded @DateTime.Now</pre></small>
 
-      @if (ViewBag.cleared != null) {
-        <pre><small>Views last cleared @ViewBag.cleared</small></pre>
+      @if (ViewBag.Cleared != null) {
+        <pre><small>Views last cleared @ViewBag.Cleared</small></pre>
       }
       
     </div>
     <div class="col-sm-6 px-3">
 
-      @if (ViewBag.visited.Count > 0) {
+      @if (ViewBag.Visited.Count > 0) {
         <p>Routes previously visited:</p>
-        <ul>@foreach (var route in ViewBag.visited) {
+        <ul>@foreach (var route in ViewBag.Visited) {
           var url = "/rappers" + route;
           <li><code><a href="@url">@route</a></code></li>
         }</ul>
