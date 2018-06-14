@@ -1,8 +1,12 @@
 using System;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using Newtonsoft.Json;
+
+using Microsoft.Extensions.Options;
 
 namespace AspNetCoreIntro {
 
@@ -17,19 +21,32 @@ namespace AspNetCoreIntro {
   }
   */
 
-  public class WebRequest {
+  public class ApiRequest {
 
-    public static async Task<Dictionary<string, object>> MakeRequest(string url) {
-      var client = new HttpClient();
+    private readonly Dictionary<string, NameValueCollection> Config;
+
+    public ApiRequest(IOptions<ApiConfig> config) {
+      Config = config as Dictionary<string, NameValueCollection>;
+    }
+
+    public async Task<Dictionary<string, object>>
+      MakeRequest(string service, string endpoint, bool requiresAuth) {
+      var Client = new HttpClient();
 
       try {
-        var Response = await client.GetAsync(url);
+
+        // Set request URI and optional bearer token from config
+        if (requiresAuth) Client.DefaultRequestHeaders.Authorization =
+          new AuthenticationHeaderValue("Bearer", Config[service]["token"]);
+        var Response = await Client.GetAsync(Config[service]["host"] + endpoint);
         Response.EnsureSuccessStatusCode();
+
         string ResponseStr = await Response.Content.ReadAsStringAsync();
         return JsonConvert.DeserializeObject<Dictionary<string, object>>(ResponseStr);
 
-      } catch (HttpRequestException error) {
-        return new Dictionary<string, object>() { { "error", error } };
+      } catch (HttpRequestException Error) {
+        return new Dictionary<string, object> { ["error"] = Error };
+
       }
 
     }
