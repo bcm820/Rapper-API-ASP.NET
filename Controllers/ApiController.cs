@@ -15,9 +15,7 @@ namespace AspNetCoreIntro.Controllers {
     [Route("/api/search")]
     // public IActionResult SearchForSong(string song) {
     async public Task<JsonResult> SearchSongs(string searchText) {
-      var Url = $"search?q={searchText}";
-      var Client = Proxy.Configure("Genius", Url);
-      var Data = await Proxy.Get(Client);
+      var Data = await Proxy.Get("Genius", $"search?q={searchText}");
       return Json(Data);
       // Genius: Search for songs
       // 1. Make async call to API
@@ -31,9 +29,7 @@ namespace AspNetCoreIntro.Controllers {
     [Route("api/artists/{artistId}")]
     // async public Task<IActionResult> GetArtistInfo(string artistId) {
     async public Task<JsonResult> GetArtistBio(string artistId) {
-      var Url = $"/artists/{artistId}";
-      var Client = Proxy.Configure("Genius", Url);
-      var Data = await Proxy.Get(Client);
+      var Data = await Proxy.Get("Genius", $"/artists/{artistId}");
       return Json(Data);
       // Genius: Get artist info (i.e. their songs)
       // Filter through data with any Db info (e.g. likes)
@@ -43,9 +39,7 @@ namespace AspNetCoreIntro.Controllers {
     [Route("api/artists/{artistId}/songs&sort=popularity")]
     // async public Task<IActionResult> GetArtistInfo(string artistId) {
     async public Task<JsonResult> GetArtistSongs(string artistId) {
-      var Url = $"/artists/{artistId}/songs";
-      var Client = Proxy.Configure("Genius", Url);
-      var Data = await Proxy.Get(Client);
+      var Data = await Proxy.Get("Genius", $"/artists/{artistId}/songs");
       return Json(Data);
       // Genius: Get artist info (i.e. their songs)
       // Filter through data with any Db info (e.g. likes)

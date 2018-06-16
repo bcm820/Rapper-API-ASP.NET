@@ -14,23 +14,23 @@ namespace AspNetCoreIntro {
     public ApiProxier(IConfiguration configuration) => Config = configuration;
 
     // Set request URI and optional bearer token from config
-    public HttpClient Configure(string service, string endpoint) {
+    public async Task<object> Get(string service, string endpoint) {
       var Client = new HttpClient();
       var Host = Config.GetValue<string>($"{service}:host");
       Client.BaseAddress = new Uri($"{Host}{endpoint}");
       var Token = Config.GetValue<string>($"{service}:token");
       if (Token != null) Client.DefaultRequestHeaders.Authorization =
         new AuthenticationHeaderValue("Bearer", Token);
-      return Client;
+      return await GetAsync(Client);
     }
 
-    public async Task<object> Get(HttpClient client) {
-      try { return await GetAsync(client); } catch (HttpRequestException error) {
+    async Task<object> GetAsync(HttpClient client) {
+      try { return await ParseResponse(client); } catch (HttpRequestException error) {
         return new { error = error };
       }
     }
 
-    async Task<object> GetAsync(HttpClient client) {
+    async Task<object> ParseResponse(HttpClient client) {
       var Response = await client.GetAsync("");
       Response.EnsureSuccessStatusCode();
       var ResponseString = await Response.Content.ReadAsStringAsync();
