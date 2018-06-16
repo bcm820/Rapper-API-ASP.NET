@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using Newtonsoft.Json;
 
-namespace Artists {
+namespace AspNetCoreIntro.Models {
 
   public class Group {
     public int Id;

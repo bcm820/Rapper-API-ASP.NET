@@ -2,30 +2,21 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
-using Artists;
-
-using Microsoft.EntityFrameworkCore;
 using AspNetCoreIntro.Models;
 
 namespace AspNetCoreIntro.Controllers {
 
-  public class ArtistController : Controller {
+  public class RapperController : Controller {
 
     // Mock API data lists
-    // (to replace with fetched API data)
-    public List<Artist> Artists;
+    public List<Artist> Rapper;
     public List<Group> Groups;
-
-    // Inject EF Core DB context
-    private Context Db;
-    // Db.Users.ToList();
 
     // Dictionary of route links to render on view
     public Dictionary<string, List<string>> Routes;
 
-    public ArtistController(Context context) {
-      Db = context;
-      Artists = JsonToFile<Artist>.ReadJson();
+    public RapperController() {
+      Rapper = JsonToFile<Artist>.ReadJson();
       Groups = JsonToFile<Group>.ReadJson();
       Routes = new Dictionary<string, List<string>> {
         ["rapper"] = new List<string> {
@@ -61,25 +52,25 @@ namespace AspNetCoreIntro.Controllers {
     [Route("api")]
     public JsonResult RapperList() {
       HttpContext.Session.AppendToList("visited", "/api");
-      return Json(Artists);
+      return Json(Rapper);
     }
 
     [Route("api/name/{name}")]
     public JsonResult ByName(string name) {
       HttpContext.Session.AppendToList("visited", $"/api/name/{name}");
-      return Json(Artists.Where(r => r.ArtistName.ContainsIgnoreCase(name)));
+      return Json(Rapper.Where(r => r.ArtistName.ContainsIgnoreCase(name)));
     }
 
     [Route("api/realName/{realname}")]
     public JsonResult ByRealName(string realname) {
       HttpContext.Session.AppendToList("visited", $"/api/realname/{realname}");
-      return Json(Artists.Where(r => r.RealName.ContainsIgnoreCase(realname)));
+      return Json(Rapper.Where(r => r.RealName.ContainsIgnoreCase(realname)));
     }
 
     [Route("api/hometown/{hometown}")]
     public JsonResult ByHometown(string hometown) {
       HttpContext.Session.AppendToList("visited", $"/api/hometown/{hometown}");
-      return Json(Artists.Where(r => r.Hometown.ContainsIgnoreCase(hometown)));
+      return Json(Rapper.Where(r => r.Hometown.ContainsIgnoreCase(hometown)));
     }
 
     [Route("api/groups")]
@@ -97,8 +88,8 @@ namespace AspNetCoreIntro.Controllers {
     [Route("api/groups/showMembers={show}")]
     public JsonResult AllGroups(string show) {
       if (show != "true") return GroupList();
-      var ArtistsGroup = Artists.GroupBy(r => r.GroupId);
-      foreach (var rG in ArtistsGroup) {
+      var RapperGroup = Rapper.GroupBy(r => r.GroupId);
+      foreach (var rG in RapperGroup) {
         var idx = Groups.FindIndex(g => g.Id == rG.Key);
         if (idx > -1)
           foreach (var r in rG)

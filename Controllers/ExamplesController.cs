@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace AspNetCoreIntro.Controllers {
 
-  /* See ArtistController for more examples. */
+  /* See RapperController for more examples. */
   public class ExamplesController : Controller {
 
     // Basic GET route (without serving view)
