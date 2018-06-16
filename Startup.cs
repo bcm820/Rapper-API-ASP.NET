@@ -18,7 +18,7 @@ namespace AspNetCoreIntro {
     public Startup(IHostingEnvironment env) {
       var builder = new ConfigurationBuilder()
         .SetBasePath(env.ContentRootPath)
-        .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+        .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
         .AddEnvironmentVariables();
       Configuration = builder.Build();
     }
@@ -30,9 +30,10 @@ namespace AspNetCoreIntro {
 
       // Add options config sections to services for injection
       Action<DbContextOptionsBuilder> useMySqlAppSettings =
-        options => options.UseMySql(Configuration["DbConfig:ConsnectionString"]);
+        options => options.UseMySql(Configuration["DbConfig:ConnectionString"]);
       services.AddDbContext<Context>(useMySqlAppSettings);
-      services.Configure<ApiConfig>(Configuration.GetSection("ApiConfig"));
+      services.AddSingleton<IConfiguration>(Configuration.GetSection("ApiConfig"));
+      services.AddScoped<ApiProxier>();
     }
 
     // Use this method to configure the HTTP request pipeline
