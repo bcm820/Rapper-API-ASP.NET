@@ -8,18 +8,13 @@ namespace AspNetCoreIntro.Controllers {
 
   public class ApiController : Controller {
 
-    private Context Db;
     private ApiProxier Proxy;
-
-    public ApiController(ApiProxier proxy, Context context) {
-      Proxy = proxy;
-      Db = context;
-    }
+    public ApiController(ApiProxier proxy) => Proxy = proxy;
 
     [HttpPost] // form-data
     [Route("/api/search")]
     // public IActionResult SearchForSong(string song) {
-    async public Task<JsonResult> Search(string searchText) {
+    async public Task<JsonResult> SearchSongs(string searchText) {
       var Url = $"search?q={searchText}";
       var Client = Proxy.Configure("Genius", Url);
       var Data = await Proxy.Get(Client);

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using Newtonsoft.Json;
 
-namespace Rappers {
+namespace Artists {
 
   public class Group {
     public int Id;
