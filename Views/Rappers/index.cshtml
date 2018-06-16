@@ -17,10 +17,9 @@
           <p>To get @key info:</p>
           <ul>
             @foreach (var route in ViewBag.Routes[key]) {
-              var url = "/rappers" + route;
               <li>
                 <code>
-                  <a href="@url" class="route">@route</a>
+                  <a href="@route" class="route">@route</a>
                 </code>
               </li>
             }
@@ -40,10 +39,9 @@
       @if (ViewBag.Visited.Count > 0) {
         <p>Routes previously visited:</p>
         <ul>@foreach (var route in ViewBag.Visited) {
-          var url = "/rappers" + route;
-          <li><code><a href="@url">@route</a></code></li>
+          <li><code><a href="@route">@route</a></code></li>
         }</ul>
-        <p><a href="/rappers/reset">Clear</a></p>
+        <p><a href="/reset">Clear</a></p>
       }
 
     </div>
