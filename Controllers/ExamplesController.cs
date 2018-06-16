@@ -2,11 +2,11 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace AspNetCoreIntro.Controllers {
 
-  /* See RappersController for more examples. */
+  /* See ArtistController for more examples. */
   public class ExamplesController : Controller {
 
     // Basic GET route (without serving view)
-    [Route("")] public string Index() => "Hello World!";
+    [Route("helloWorld")] public string Index() => "Hello World!";
 
     // Basic GET route to render view
     // If no View arg provided, defaults to "index";
